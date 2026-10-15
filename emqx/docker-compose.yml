@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  emqx1:
+    image: emqx/emqx:5.8.9
+    container_name: emqx1
+    environment:
+      - "EMQX_NODE_NAME=emqx@node1.emqx.io"
+      - "EMQX_CLUSTER__DISCOVERY_STRATEGY=static"
+      - "EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.io,emqx@node2.emqx.io,emqx@node3.emqx.io]"
+      - "EMQX_LISTENERS__WSS__DEFAULT__ENABLE=false"
+    ports:
+      - "1883:1883" # Mở trực tiếp cổng 1883 ra ngoài máy host tại emqx1
+      - "18083:18083" # Cổng giao diện Dashboard EMQX
+    networks:
+      emqx-bridge:
+        aliases:
+          - node1.emqx.io
+    volumes:
+      - ./certs:/opt/emqx/etc/certs
+
+  emqx2:
+    image: emqx/emqx:5.8.9
+    container_name: emqx2
+    environment:
+      - "EMQX_NODE_NAME=emqx@node2.emqx.io"
+      - "EMQX_CLUSTER__DISCOVERY_STRATEGY=static"
+      - "EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.io,emqx@node2.emqx.io,emqx@node3.emqx.io]"
+      - "EMQX_LISTENERS__WSS__DEFAULT__ENABLE=false"
+    networks:
+      emqx-bridge:
+        aliases:
+          - node2.emqx.io
+
+  emqx3:
+    image: emqx/emqx:5.8.9
+    container_name: emqx3
+    environment:
+      - "EMQX_NODE_NAME=emqx@node3.emqx.io"
+      - "EMQX_CLUSTER__DISCOVERY_STRATEGY=static"
+      - "EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.io,emqx@node2.emqx.io,emqx@node3.emqx.io]"
+      - "EMQX_LISTENERS__WSS__DEFAULT__ENABLE=false"
+    networks:
+      emqx-bridge:
+        aliases:
+          - node3.emqx.io
+
+networks:
+  emqx-bridge:
+    driver: bridge

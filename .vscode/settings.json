@@ -1,0 +1,9 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/myenv/Scripts/python.exe",
+  "python.terminal.activateEnvironment": true,
+  "python.pyrefly.configPath": "${workspaceFolder}/pyrefly.toml",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/myenv/Lib/site-packages",
+    "${workspaceFolder}/Server/tenant_site"
+  ]
+}

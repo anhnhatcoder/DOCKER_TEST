@@ -1,0 +1,10 @@
+
+[integration.mqtt.auth.generic]
+server="tcp://host.docker.internal:1883"
+username="admin"
+password="admin123"
+
+# 2. Sửa lại tên file cho khớp với file bạn đã chép vào thư mục certs
+#ca_cert="/etc/certs/cacert.pem"
+#tls_cert="/etc/certs/cert.pem"
+#tls_key="/etc/certs/key.pem"
